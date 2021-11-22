@@ -1,9 +1,10 @@
 package main
 
 import (
-  "fmt"
-  "github.com/gorilla/mux"
-  "net/http"
+	"fmt"
+	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
