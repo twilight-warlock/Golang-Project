@@ -5,9 +5,10 @@
       <v-card-text>
         <v-form @submit.prevent="sendContent">
           <v-textarea v-model="content" label="Newsletter Content" color="white" filled></v-textarea>
-          <v-checkbox v-model="isHTML" label="Is HTML" value="isHTML" color="white"></v-checkbox>
+          <!-- <v-checkbox v-model="isHTML" label="Is HTML" value="isHTML" color="white"></v-checkbox> -->
           <v-btn color="blue darken-1" depressed type="submit">Send to all subscribers!</v-btn>
         </v-form>
+        <i>Supports HTML!</i>
 
         <br />
 
@@ -22,7 +23,7 @@
 export default {
     data: () => ({
         content: '',
-        isHTML: false,
+        // isHTML: false,
     }),
     methods:{
         sendContent(){
