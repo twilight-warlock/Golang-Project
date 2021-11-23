@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"reflect"
 
 	_ "github.com/go-sql-driver/mysql"
 
@@ -57,9 +58,34 @@ func main() {
 		fmt.Fprintf(w, "Send some response")
 	}).Methods("POST")
 
-	r.HandleFunc("/create_newsletter", func(w http.ResponseWriter, r *http.Request) {
+	r.HandleFunc("/send_newsletter", func(w http.ResponseWriter, r *http.Request) {
 		// get user topic,head,content from r
 		// Add it to collection topic inside a new document and call sendMail function on it
+		rows, err := db.Query("SELECT email FROM subscribers")
+    if err != nil {
+				fmt.Println("Err")
+        return
+    }
+    defer rows.Close()
+
+    // An album slice to hold data from returned rows.
+    var emails []string
+
+    // Loop through rows, using Scan to assign column data to struct fields.
+    for rows.Next() {
+        var email string
+        if err := rows.Scan(&email); err != nil {
+					fmt.Println("Err")
+            return
+        }
+        emails = append(emails, email)
+    }
+    if err = rows.Err(); err != nil {
+				fmt.Println("Err")
+        return
+    }
+		fmt.Println(emails)
+		
 
 		defer r.Body.Close()
 		body, _ := ioutil.ReadAll(r.Body)
@@ -69,7 +95,11 @@ func main() {
 
 		fmt.Println("Title :", result["title"])
 		fmt.Println("Author :", result["author"])
-		sendMail()
+		fmt.Println(reflect.TypeOf(result["title"]))
+		fmt.Println(result)
+		subject := result["title"].(string)
+		content :=result["body"].(string)
+		sendMail(subject, content,emails)
 	}).Methods("POST")
 
 	http.Handle("/", r)
