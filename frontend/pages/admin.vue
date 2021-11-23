@@ -41,7 +41,7 @@ export default {
   }),
   methods: {
     sendContent() {
-      this.$axios.post('http://localhost:8080/unsubscribe', {
+      this.$axios.post('http://localhost:8080/send_newsletter', {
         title: this.subject,
         body: this.content,
       })
