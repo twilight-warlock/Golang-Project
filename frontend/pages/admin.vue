@@ -26,7 +26,7 @@
         <br />
 
         <h1 class="mt-10">Subscribers</h1>
-        <p>...</p>
+        <p v-for="email in emails" :key="email">{{ email }}</p>
       </v-card-text>
     </v-card>
   </v-container>
@@ -37,8 +37,15 @@ export default {
   data: () => ({
     subject: '',
     content: '',
+    emails: [],
     // isHTML: false,
   }),
+  mounted() {
+    const { data } = await this.$axios.get(
+      'http://localhost:8080/subscribers'
+    )
+    this.emails = data
+  },
   methods: {
     sendContent() {
       this.$axios.post('http://localhost:8080/send_newsletter', {
