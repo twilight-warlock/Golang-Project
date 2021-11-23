@@ -1,11 +1,20 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
+
+type newsletter struct{
+	title string
+	body string
+	topic string
+	author string
+}
 
 func main() {
 
@@ -22,16 +31,42 @@ func main() {
 		fmt.Fprintf(w, "Send some response")
 	})
 
-	r.HandleFunc("/createNewsletter", func(w http.ResponseWriter, r *http.Request) {
+	r.HandleFunc("/create_newsletter", func(w http.ResponseWriter, r *http.Request) {
 		// get user topic,head,content from r
 		// Add it to collection topic inside a new document and call sendMail function on it
-		sendMail()
-		fmt.Fprintf(w, "Send some response")
+
+		
+		// err := json.NewDecoder(r.Body).Decode(&newsletter)
+
+		// fmt.Println(err)
+		// if err != nil {
+		// 		// Simplified
+		// 		fmt.Println(err)
+		// 		return
+		// }
+		// fmt.Println(newsletter)
+		
+    // post, _ := range r.Body.Read(){
+		// 	fmt.Println(post)
+		// }
+
+		defer r.Body.Close()
+    body, _ := ioutil.ReadAll(r.Body)
+
+    // ioutil.WriteFile("dump", body, 0600)
+		var iot newsletter
+    err := json.Unmarshal(body, &iot)
+		fmt.Println(err)
+    fmt.Println("done")
+		fmt.Println(iot)
+
+
+		// sendMail()
 	})
 
 
 	http.Handle("/", r)
 	http.ListenAndServe(":8080", r)
-	fmt.Println("Listening on 8080")
+	
 
 }
