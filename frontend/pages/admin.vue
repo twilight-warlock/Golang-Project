@@ -8,6 +8,11 @@
           <v-checkbox v-model="isHTML" label="Is HTML" value="isHTML" color="white"></v-checkbox>
           <v-btn color="blue darken-1" depressed type="submit">Send to all subscribers!</v-btn>
         </v-form>
+
+        <br />
+
+        <h1 class="mt-10">Subscribers </h1>
+        <p>...</p>
       </v-card-text>
     </v-card>
   </v-container>

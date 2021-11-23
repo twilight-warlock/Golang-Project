@@ -1,11 +1,11 @@
 <template>
   <v-container>
-    <v-card>
+    <v-card color="brown">
       <v-card-title>Unsubscribe</v-card-title>
       <v-card-text>
         <v-form @submit.prevent="unsubscribe">
           <v-text-field v-model="email" label="Email"></v-text-field>
-          <v-btn type="submit">Submit</v-btn>
+          <v-btn type="submit" color="brown lighten-1">Unsubscribe</v-btn>
         </v-form>
       </v-card-text>
     </v-card>
