@@ -25,8 +25,8 @@
 
         <br />
 
-        <h1 class="mt-10">Subscribers</h1>
-        <p v-for="email in emails" :key="email">{{ email }}</p>
+        <h1 class="mt-10 mb-5">Subscribers</h1>
+        <p class="p-2" v-for="email in emails" :key="email">{{ email }}</p>
       </v-card-text>
     </v-card>
   </v-container>
@@ -40,10 +40,8 @@ export default {
     emails: [],
     // isHTML: false,
   }),
-  mounted() {
-    const { data } = await this.$axios.get(
-      'http://localhost:8080/subscribers'
-    )
+  async mounted() {
+    const { data } = await this.$axios.get('http://localhost:8080/subscribers')
     this.emails = data
   },
   methods: {

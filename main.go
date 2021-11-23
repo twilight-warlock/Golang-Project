@@ -67,6 +67,7 @@ func main() {
 	})
 
 	r.HandleFunc("/subscribers",func(w http.ResponseWriter, r *http.Request){
+		setupCorsResponse(&w,r)
 		rows, err := db.Query("SELECT email FROM subscribers")
     if err != nil {
 				fmt.Println("Err")
