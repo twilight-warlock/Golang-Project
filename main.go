@@ -12,12 +12,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type newsletter struct {
-	title  string
-	body   string
-	topic  string
-	author string
-}
+
 
 func setupCorsResponse(w *http.ResponseWriter, req *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
@@ -69,6 +64,33 @@ func main() {
 		result2, err := db.Exec("DELETE FROM subscribers WHERE email=(?)", result["email"])
 		fmt.Println(result2, err)
 		fmt.Fprintf(w, "Send some response")
+	})
+
+	r.HandleFunc("/subscribers",func(w http.ResponseWriter, r *http.Request){
+		rows, err := db.Query("SELECT email FROM subscribers")
+    if err != nil {
+				fmt.Println("Err")
+        return
+    }
+    defer rows.Close()
+
+    var emails []string
+
+    for rows.Next() {
+        var email string
+        if err := rows.Scan(&email); err != nil {
+					fmt.Println("Err")
+            return
+        }
+        emails = append(emails, email)
+    }
+    if err = rows.Err(); err != nil {
+				fmt.Println("Err")
+        return
+    }
+		jsonData, _ := json.Marshal(emails)
+		fmt.Fprintf(w, string(jsonData))
+			
 	})
 
 	r.HandleFunc("/send_newsletter", func(w http.ResponseWriter, r *http.Request) {
