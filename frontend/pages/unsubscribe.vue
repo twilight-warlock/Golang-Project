@@ -14,13 +14,15 @@
 
 <script>
 export default {
-    data: () => ({
-        email: '',
-    }),
-    methods:{
-        unsubscribe(){
-            this.$axios.get("https://dog.ceo/api/breeds/image/random").then((res) => console.log(res))
-        }
-    }
+  data: () => ({
+    email: '',
+  }),
+  methods: {
+    unsubscribe() {
+      this.$axios.post('http://localhost:8080/unsubscribe', {
+        email: this.email,
+      })
+    },
+  },
 }
 </script>
