@@ -1,11 +1,12 @@
 <template>
   <v-container>
-    <v-card>
+    <v-card color="blue darken-2">
       <v-card-title>Admin</v-card-title>
       <v-card-text>
         <v-form @submit.prevent="sendContent">
-          <v-textarea v-model="content" label="Newsletter Content" filled></v-textarea>
-          <v-btn type="submit">Send to all subscribers!</v-btn>
+          <v-textarea v-model="content" label="Newsletter Content" color="white" filled></v-textarea>
+          <v-checkbox v-model="isHTML" label="Is HTML" value="isHTML" color="white"></v-checkbox>
+          <v-btn color="blue darken-1" depressed type="submit">Send to all subscribers!</v-btn>
         </v-form>
       </v-card-text>
     </v-card>
@@ -16,6 +17,7 @@
 export default {
     data: () => ({
         content: '',
+        isHTML: false,
     }),
     methods:{
         sendContent(){
