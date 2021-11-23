@@ -9,10 +9,10 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type newsletter struct{
-	title string
-	body string
-	topic string
+type newsletter struct {
+	title  string
+	body   string
+	topic  string
 	author string
 }
 
@@ -35,7 +35,6 @@ func main() {
 		// get user topic,head,content from r
 		// Add it to collection topic inside a new document and call sendMail function on it
 
-		
 		// err := json.NewDecoder(r.Body).Decode(&newsletter)
 
 		// fmt.Println(err)
@@ -45,28 +44,35 @@ func main() {
 		// 		return
 		// }
 		// fmt.Println(newsletter)
-		
-    // post, _ := range r.Body.Read(){
+
+		// post, _ := range r.Body.Read(){
 		// 	fmt.Println(post)
 		// }
 
 		defer r.Body.Close()
-    body, _ := ioutil.ReadAll(r.Body)
+		body, _ := ioutil.ReadAll(r.Body)
 
-    // ioutil.WriteFile("dump", body, 0600)
-		var iot newsletter
-    err := json.Unmarshal(body, &iot)
-		fmt.Println(err)
-    fmt.Println("done")
-		fmt.Println(iot)
+		var result map[string]interface{}
+		json.Unmarshal([]byte(string(body)), &result)
 
+		// Print the data type of result variable
+		// fmt.Println(reflect.TypeOf(result))
+
+		// Reading each value by its key
+		fmt.Println("Title :", result["title"])
+		fmt.Println("Author :", result["author"])
+
+		// ioutil.WriteFile("dump", body, 0600)
+		// 	var iot newsletter
+		// err := json.Unmarshal(body, &iot)
+		// 	fmt.Println(err)
+		// fmt.Println("done")
+		// 	fmt.Println(iot)
 
 		// sendMail()
 	})
 
-
 	http.Handle("/", r)
 	http.ListenAndServe(":8080", r)
-	
 
 }
