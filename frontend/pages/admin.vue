@@ -41,9 +41,10 @@ export default {
   }),
   methods: {
     sendContent() {
-      this.$axios
-        .get('https://dog.ceo/api/breeds/image/random')
-        .then((res) => console.log(res))
+      this.$axios.post('http://localhost:8080/unsubscribe', {
+        title: this.subject,
+        body: this.content,
+      })
     },
   },
 }
