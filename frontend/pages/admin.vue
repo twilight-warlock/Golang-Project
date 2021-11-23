@@ -16,12 +16,12 @@
             color="white"
             filled
           ></v-textarea>
+          <i>Supports HTML!</i> <br />
           <!-- <v-checkbox v-model="isHTML" label="Is HTML" value="isHTML" color="white"></v-checkbox> -->
-          <v-btn color="blue darken-1" depressed type="submit"
+          <v-btn color="blue darken-1" class="mt-2" depressed type="submit"
             >Send to all subscribers!</v-btn
           >
         </v-form>
-        <i>Supports HTML!</i>
 
         <br />
 
