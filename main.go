@@ -75,6 +75,11 @@ func main() {
 		// get user topic,head,content from r
 		// Add it to collection topic inside a new document and call sendMail function on it
 		setupCorsResponse(&w,r)
+		defer r.Body.Close()
+		body, _ := ioutil.ReadAll(r.Body)
+
+		var result map[string]string
+		json.Unmarshal([]byte(string(body)), &result)
 		rows, err := db.Query("SELECT email FROM subscribers")
     if err != nil {
 				fmt.Println("Err")
@@ -98,21 +103,13 @@ func main() {
 				fmt.Println("Err")
         return
     }
-		fmt.Println(emails)
-		
-
-		defer r.Body.Close()
-		body, _ := ioutil.ReadAll(r.Body)
-
-		var result map[string]interface{}
-		json.Unmarshal([]byte(string(body)), &result)
+		fmt.Println(emails)		
 		fmt.Println(string(body))
 
 		fmt.Println("Title :", result["title"])
 		fmt.Println("Body :", result["body"])
-		fmt.Println(result)
-		subject := result["title"].(string)
-		content :=result["body"].(string)
+		subject := result["title"]
+		content := result["body"]
 		sendMail(subject, content,emails)
 	})
 
